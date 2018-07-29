@@ -33,18 +33,7 @@ function init() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
-
-
   // Binary files
-
-  //var material = new THREE.MeshPhongMaterial( { color: 0x0e2045, specular: 0x111111, shininess: 100 } );
-  var url_string = window.location.href;
-  var url = new URL(url_string);
-  var model = url.searchParams.get("model");
-
-  document.title = model;
-  load(model);
-
 
   var controls = new THREE.OrbitControls( camera, renderer.domElement );
   controls.addEventListener( 'change', render );
@@ -53,6 +42,7 @@ function init() {
   window.addEventListener( 'resize', onWindowResize, false );
   onWindowResize();
 }
+
 function load(model) {
   loader.load( 'models/' + model, function ( geometry ) {
     var mesh = new THREE.Mesh( geometry, material );
@@ -69,6 +59,7 @@ function load(model) {
     scene.add( mesh );
     last_added = mesh;
     render();
+    document.title = model;
   });
 }
 function onWindowResize() {
