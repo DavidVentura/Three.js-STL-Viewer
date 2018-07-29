@@ -1,0 +1,15 @@
+[Unit]
+Description=host the basic stl webapp
+After=network.target
+
+[Service]
+ExecStart=/home/david/git/Three.js-STL-Viewer/.venv/bin/python app.py
+Type=simple
+User=david
+Restart=no
+RestartSec=10
+WorkingDirectory=/home/david/git/Three.js-STL-Viewer/
+
+[Install]
+WantedBy=multi-user.target
+
