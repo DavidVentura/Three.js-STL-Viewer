@@ -18,15 +18,16 @@
             padding: 0;
             margin: 0;
         }
+        a {
+            display: block;
+        }
     </style>
   </head>
   <body>
     <div id="colright">
-    <ul>
         {% for _file in get_file_list() %}
-            <li onclick="load('{{_file}}')">{{_file}}</li>
+            <a href='#' onclick="load('{{_file}}')">{{_file}}</a>
         {% endfor %}
-    </ul>
     </div>
     <script src="js/three.js"></script>
     <script src="js/STLLoader.js"></script>
