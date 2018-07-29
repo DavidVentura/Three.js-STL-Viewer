@@ -23,8 +23,9 @@
   <body>
     <div id="colright">
     <ul>
-        <li onclick="load('doggy_bag.stl')">item1</li>
-        <li onclick="load('phone_holder.stl')">item2</li>
+        {% for _file in get_file_list() %}
+            <li onclick="load('{{_file}}')">{{_file}}</li>
+        {% endfor %}
     </ul>
     </div>
     <script src="js/three.js"></script>
@@ -32,5 +33,12 @@
     <script src="js/Detector.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="js/handLoader.js"></script>
+    <script>
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var model = url.searchParams.get("model");
+        if (model)
+            load(model);
+    </script>
   </body>
 </html>
