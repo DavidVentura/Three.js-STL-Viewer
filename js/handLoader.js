@@ -45,6 +45,7 @@ function init() {
 
 function load(model) {
   loader.load( 'models/' + model, function ( geometry ) {
+    window.location.hash = model;
     var mesh = new THREE.Mesh( geometry, material );
 
     mesh.position.set( 0, 0, 0 );
@@ -60,6 +61,7 @@ function load(model) {
     last_added = mesh;
     render();
     document.title = model;
+    window.location.hash = model;
   });
 }
 function onWindowResize() {

@@ -35,11 +35,9 @@
     <script src="js/OrbitControls.js"></script>
     <script src="js/handLoader.js"></script>
     <script>
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var model = url.searchParams.get("model");
-        if (model)
-            load(model);
+        var hash = window.location.hash;
+        if (hash)
+            load(hash.replace('#', ''));
     </script>
   </body>
 </html>
