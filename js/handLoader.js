@@ -1,9 +1,12 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var camera, scene, renderer;
+var loader = new THREE.STLLoader();
+var last_added = undefined;
 
 init();
 
+var material = new THREE.MeshPhongMaterial( { color: 0x0e9945, specular: 0x111111, shininess: 20 } );
 function init() {
 
   scene = new THREE.Scene();
@@ -20,23 +23,38 @@ function init() {
 
   scene.add( camera );
 
-  var grid = new THREE.GridHelper( 25, 50, 0xffffff, 0x555555 );
+  var grid = new THREE.GridHelper( 25, 100, 0xffffff, 0x555555 );
   grid.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), 90 * ( Math.PI/180 ) );
   scene.add( grid );
 
   renderer = new THREE.WebGLRenderer( { antialias: true } );
-  renderer.setClearColor( 0x999999 );
+  renderer.setClearColor( 0xaaaaaa );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
 
-  var loader = new THREE.STLLoader();
 
 
   // Binary files
 
-  var material = new THREE.MeshPhongMaterial( { color: 0x0e2045, specular: 0x111111, shininess: 200 } );
-  loader.load( 'https://s3.amazonaws.com/limbforgestls/EbeArm/Ebe_forearm_L/forearm_L_C4-200_L1-230.stl', function ( geometry ) {
+  //var material = new THREE.MeshPhongMaterial( { color: 0x0e2045, specular: 0x111111, shininess: 100 } );
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var model = url.searchParams.get("model");
+
+  document.title = model;
+  load(model);
+
+
+  var controls = new THREE.OrbitControls( camera, renderer.domElement );
+  controls.addEventListener( 'change', render );
+  controls.target.set( 0, 1.2, 2 );
+  controls.update();
+  window.addEventListener( 'resize', onWindowResize, false );
+  onWindowResize();
+}
+function load(model) {
+  loader.load( 'models/' + model, function ( geometry ) {
     var mesh = new THREE.Mesh( geometry, material );
 
     mesh.position.set( 0, 0, 0 );
@@ -46,24 +64,19 @@ function init() {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 
+    if (last_added)
+        scene.remove(last_added);
     scene.add( mesh );
+    last_added = mesh;
     render();
   });
-
-  var controls = new THREE.OrbitControls( camera, renderer.domElement );
-  controls.addEventListener( 'change', render );
-  controls.target.set( 0, 1.2, 2 );
-  controls.update();
-  window.addEventListener( 'resize', onWindowResize, false );
-
 }
-
 function onWindowResize() {
 
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = window.innerWidth * 0.8 / window.innerHeight;
   camera.updateProjectionMatrix();
 
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( window.innerWidth * 0.8, window.innerHeight );
 
   render();
 

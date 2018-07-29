@@ -4,8 +4,29 @@
     <title>Ebe Arm</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        canvas {
+            width: 80%;
+        }
+        #colright {
+            float: right;
+            width: 19%;
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
   </head>
   <body>
+    <div id="colright">
+    <ul>
+        <li onclick="load('doggy_bag.stl')">item1</li>
+        <li onclick="load('phone_holder.stl')">item2</li>
+    </ul>
+    </div>
     <script src="js/three.js"></script>
     <script src="js/STLLoader.js"></script>
     <script src="js/Detector.js"></script>
